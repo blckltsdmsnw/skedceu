@@ -35,6 +35,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 6. **Tuition** — payment plan timeline + reminders
 7. **Settings** — profile, notifications, widgets, appearance, semesters, SkedCEU Plus, privacy, sign out
 8. **Share via QR** — QR card, scan-a-friend, share-as-image, find-time-together
+9. **Subject Details** — tap any class anywhere to open it: COM-sourced schedule (editable) + user-added professor, meeting link, notes, color, per-subject reminder
 
 ---
 
@@ -86,7 +87,14 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - **Share as image (snapshot):** export today's or the week's schedule as an image for any chat (Messenger etc.) — one-off, static, no app or account needed by the recipient.
 - Rationale for whole-sem scope: a class schedule is a weekly pattern; expiry controls access duration, not content; free-time overlap requires both full weekly patterns.
 
-### 9. Monetization — SkedCEU Plus
+### 9. Subject details & editing
+- The COM provides only code, name, section, units, times, and rooms — **professor names and meeting links are NOT on the COM**, so they are user-added.
+- **Tapping any class row/block** (Today, Week, Curriculum) opens the **Subject Detail screen**:
+  - *From your COM* (editable): meeting times and room — with an edit pencil, since parsing can need correction mid-sem.
+  - *Details you add*: professor name, online-meeting link (powers the Join button and reminder deep-link), personal notes, subject color, per-subject reminder toggle/offset.
+- Future idea (not committed): per-section crowd-sourcing of professor names/links between students who share a section.
+
+### 10. Monetization — SkedCEU Plus
 - App is **free**; all core features (import, schedule, reminders, curriculum, tuition, sharing) are free.
 - One-time payment unlocks **cosmetics only**: more widget styles, custom backgrounds/themes.
 - Surfaced only as a quiet row in Settings. Purchases via platform stores; confirmation via **webhook**; no card data touches the backend.
