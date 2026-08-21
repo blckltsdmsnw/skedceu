@@ -8,7 +8,7 @@ A mobile application (iOS and Android) for Centro Escolar University students th
 
 ## System Overview
 
-Every new semester, CEU students receive a Certificate of Matriculation listing their enrolled subjects, section, rooms, and class times. Most students simply take a photo of it and dig through their phone gallery whenever they need to check what room they are in. SkedCEU replaces that habit: the student scans or uploads the COM once, the app extracts the schedule automatically using OCR, the student reviews and confirms the extracted data, and from then on the schedule is available in the app, on home screen widgets, and through lock screen notifications before each class.
+Every new semester, CEU students receive a Certificate of Matriculation listing their enrolled subjects, section, rooms, and class times. Most students simply take a photo of it and dig through their phone gallery whenever they need to check what room they are in. SkedCEU replaces that habit: the student imports the COM once (the saved CARES portal page, or a photo read with OCR), the app extracts the schedule automatically, the student reviews and confirms the extracted data, and from then on the schedule is available in the app, on home screen widgets, and through lock screen notifications before each class.
 
 The app also includes a curriculum tab. Since program curricula are accessible to students, SkedCEU stores them per program so that tapping any subject shows its prerequisite chain — helping students understand why they are taking a subject and what it unlocks.
 
@@ -30,12 +30,14 @@ SkedCEU is free to download and use. A one-time payment unlocks premium personal
 
 ## Main Features
 
-1. **COM scan and auto-extraction** — take a photo or upload the COM; OCR extracts enrolled subjects, section, rooms, and class times.
+1. **COM import and auto-extraction** — upload the COM page saved from the CARES student portal (parsed exactly, no OCR errors) or scan a photo of the printed COM (OCR fallback); enrolled subjects, section, rooms, and class times are extracted automatically.
 2. **Review-and-confirm screen** — the extracted schedule is shown for correction before saving; manual entry is available as a fallback if OCR fails.
-3. **Schedule view and widgets** — in-app timetable (Today/Week) plus home screen and lock screen widgets; Philippine holidays and CEU academic dates (e.g., class suspensions) appear in the schedule automatically.
+3. **Schedule view and widgets** — Today and Week views as a visual timetable grid or list, plus home screen and lock screen widgets; Philippine holidays and CEU academic dates (e.g., class suspensions) appear in the schedule automatically.
 4. **Class reminders and meeting links** — push notifications before each class including the room number; a subject with an attached online-meeting link (e.g., Google Meet) shows a Join button for synchronous classes.
 5. **Curriculum and prerequisites tab** — browse the program curriculum; tapping a subject shows its prerequisites.
 6. **Premium unlock (one-time payment)** — additional widget styles and custom themes. The core scheduling features remain free.
+
+Further designed features — tuition installment reminders, QR schedule sharing with free-time overlap, and per-subject details (professor, meeting link, notes) — are documented with the full design and v2 roadmap in [docs/PLAN.md](docs/PLAN.md). Interactive UI mockups accompany the plan.
 
 ## Project Structure
 
