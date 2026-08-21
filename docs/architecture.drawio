@@ -1,0 +1,83 @@
+<mxfile host="app.diagrams.net" agent="SkedCEU" version="24.7.7">
+  <diagram name="SkedCEU Architecture" id="skedceu-arch">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="student" value="STUDENT" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="470" y="30" width="40" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="deviceGroup" value="Student's Device" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="540" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="app" value="SkedCEU Mobile App&#10;(Flutter — iOS &amp; Android)&#10;Presentation Layer: screens, widgets, reminders" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="320" y="190" width="280" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cache" value="Local Cache&#10;(offline schedule&#10;for app &amp; widgets)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="670" y="185" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="backendGroup" value="SkedCEU Backend (Monolith)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#82b366;dashed=1;verticalAlign=top;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="120" y="400" width="540" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="api" value="REST API&#10;Business Logic Layer&#10;Data Access Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="160" y="440" width="240" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db" value="PostgreSQL&#10;students · schedules&#10;curricula · purchases" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="480" y="435" width="140" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ocr" value="Google Cloud Vision&#10;OCR API&#10;(external service)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="660" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pay" value="Google Play / App Store&#10;Billing&#10;(external service)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="660" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="push" value="FCM / APNs&#10;Push Notification Services&#10;(external service)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="780" y="440" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" value="uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="student" target="app">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" value="offline read/write" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;startArrow=classic;startFill=1;" edge="1" parent="1" source="app" target="cache">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" value="HTTPS / REST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;startArrow=classic;startFill=1;" edge="1" parent="1" source="app" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="api" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5" value="REST API call&#10;(COM image → extracted text)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="api" target="ocr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" value="Webhook&#10;(purchase confirmed / refunded)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="pay" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e7" value="send class reminder" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="api" target="push">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e8" value="push notification&#10;(lock screen reminder)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="push" target="app">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
