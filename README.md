@@ -32,8 +32,8 @@ SkedCEU is free to download and use. A one-time payment unlocks premium personal
 
 1. **COM scan and auto-extraction** — take a photo or upload the COM; OCR extracts enrolled subjects, section, rooms, and class times.
 2. **Review-and-confirm screen** — the extracted schedule is shown for correction before saving; manual entry is available as a fallback if OCR fails.
-3. **Schedule view and widgets** — in-app timetable plus home screen and lock screen widgets.
-4. **Class reminders** — push notifications before each class, including the room number.
+3. **Schedule view and widgets** — in-app timetable (Today/Week) plus home screen and lock screen widgets; Philippine holidays and CEU academic dates (e.g., class suspensions) appear in the schedule automatically.
+4. **Class reminders and meeting links** — push notifications before each class including the room number; a subject with an attached online-meeting link (e.g., Google Meet) shows a Join button for synchronous classes.
 5. **Curriculum and prerequisites tab** — browse the program curriculum; tapping a subject shows its prerequisites.
 6. **Premium unlock (one-time payment)** — additional widget styles and custom themes. The core scheduling features remain free.
 
@@ -77,9 +77,10 @@ The data the system needs to represent:
 | `Student` | Account information (name, email, program, hashed password) |
 | `COMDocument` | An uploaded COM image and its processing status (deleted after successful parsing) |
 | `Subject` | A subject in a curriculum (code, title, units) |
-| `ScheduleEntry` | One enrolled class: subject + section + room + day + time |
+| `ScheduleEntry` | One enrolled class: subject + section + room + day + time + optional meeting link |
 | `Curriculum` | The set of subjects for a program per year level |
 | `Prerequisite` | A link stating that one subject requires another |
+| `AcademicEvent` | A Philippine holiday or CEU calendar date that affects classes (e.g., National Heroes Day) |
 | `Purchase` | A record of the one-time premium unlock |
 
 ### View
@@ -105,6 +106,7 @@ The actions the system handles:
 | `ScheduleController` | Create, read, update, and archive schedules per semester |
 | `NotificationController` | Schedules class reminders and sends them through push services |
 | `CurriculumController` | Serves curriculum and prerequisite data per program |
+| `CalendarSyncController` | Imports Philippine holidays and CEU academic dates into the schedule |
 | `PurchaseController` | Verifies premium purchases and unlocks features |
 
 **Why these choices:** each controller maps to exactly one user-visible action group, and each model maps to one real-world thing on the COM or in the curriculum. The review-and-confirm flow is deliberately its own step between `UploadCOMController` and `ScheduleController` so that OCR mistakes never silently corrupt a saved schedule.
@@ -130,6 +132,7 @@ The Flutter app: scan screen, review-and-confirm screen, timetable, curriculum b
 - Parse OCR output into structured schedule entries (subject code matching, time/room extraction).
 - Validate schedules (detect impossible overlaps, unknown subject codes).
 - Resolve prerequisite chains for the curriculum view.
+- Merge holidays and CEU academic events into the timetable (class rows are replaced by a "no classes" banner on holidays).
 - Check premium entitlement before enabling premium features.
 - Compute when each class reminder should fire.
 
@@ -142,7 +145,7 @@ Repository classes that abstract where data comes from:
 
 ### Database
 
-PostgreSQL on the backend storing: `students`, `schedules`, `schedule_entries`, `subjects`, `curricula`, `prerequisites`, and `purchases`. COM images are only held temporarily during parsing and are deleted after the student confirms the schedule.
+PostgreSQL on the backend storing: `students`, `schedules`, `schedule_entries`, `subjects`, `curricula`, `prerequisites`, `academic_events`, and `purchases`. Schedule entries may carry an optional meeting link. COM images are only held temporarily during parsing and are deleted after the student confirms the schedule.
 
 ## Integration Pattern
 
@@ -156,7 +159,15 @@ SkedCEU Backend  →  Google Cloud Vision API (OCR)
 
 **Why:** COM parsing is a direct request/response interaction — the app uploads an image and needs the extracted text immediately so the student can review it. A synchronous REST call is the natural fit. Building our own OCR would be far harder and less accurate than using a proven vision API.
 
-### 2. Webhook — payment confirmation (chosen)
+### 2. API / REST — Philippine holiday calendar (chosen)
+
+```
+SkedCEU Backend  →  Google Calendar public PH Holidays feed
+```
+
+**Why:** the backend periodically pulls the public Philippine holidays feed (a read-only REST resource) and stores the dates as academic events, so holidays like National Heroes Day automatically appear as "no classes" in every student's schedule. CEU-specific dates (class suspensions, university events) are maintained by the admin in the same table. A periodic pull fits because holiday data changes rarely and no immediate notification is needed.
+
+### 3. Webhook — payment confirmation (chosen)
 
 ```
 Google Play / App Store  →  Webhook  →  SkedCEU Backend
@@ -164,7 +175,7 @@ Google Play / App Store  →  Webhook  →  SkedCEU Backend
 
 **Why:** the one-time premium purchase is processed by the platform stores. The store notifies our backend *after* the purchase (or a refund) happens — a classic webhook scenario, because the event originates on the external service's side and we should not poll for it.
 
-### 3. Push notification services (FCM / APNs)
+### 4. Push notification services (FCM / APNs)
 
 ```
 SkedCEU Backend  →  FCM / APNs  →  Student's device
@@ -247,9 +258,10 @@ flowchart TD
     end
 
     API -->|"REST (COM image → text)"| OCR["Google Cloud Vision<br/>OCR API"]
+    API -->|"REST (holiday sync)"| HOL["Google Calendar<br/>PH Holidays feed"]
     PAY["Google Play / App Store<br/>Billing"] -->|"Webhook (purchase confirmed)"| API
     API -->|send reminder| PUSH["FCM / APNs"]
     PUSH -->|push notification| APP
 ```
 
-**Reading the diagram:** the student interacts only with the mobile app. The app talks to the monolithic backend over HTTPS. The backend calls the OCR API when a COM is uploaded, receives webhooks from the platform billing services when a premium purchase completes, and triggers class reminders through FCM/APNs. The local cache keeps schedules and widgets working offline.
+**Reading the diagram:** the student interacts only with the mobile app. The app talks to the monolithic backend over HTTPS. The backend calls the OCR API when a COM is uploaded, periodically pulls the public Philippine holidays feed to mark no-class days, receives webhooks from the platform billing services when a premium purchase completes, and triggers class reminders through FCM/APNs. The local cache keeps schedules and widgets working offline.

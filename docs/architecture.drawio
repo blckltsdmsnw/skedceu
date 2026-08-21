@@ -41,6 +41,10 @@
           <mxGeometry x="420" y="660" width="200" height="80" as="geometry" />
         </mxCell>
 
+        <mxCell id="hol" value="Google Calendar&#10;PH Holidays feed&#10;(external service)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="720" y="660" width="200" height="80" as="geometry" />
+        </mxCell>
+
         <mxCell id="push" value="FCM / APNs&#10;Push Notification Services&#10;(external service)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
           <mxGeometry x="780" y="440" width="200" height="80" as="geometry" />
         </mxCell>
@@ -62,6 +66,10 @@
         </mxCell>
 
         <mxCell id="e5" value="REST API call&#10;(COM image → extracted text)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="api" target="ocr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e9" value="REST pull&#10;(holiday sync)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="api" target="hol">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
