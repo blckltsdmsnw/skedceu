@@ -125,6 +125,15 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - QR share: **class times only**, expiring, revocable.
 - The real COM file used for design reference stays local (`Downloads\CEUMANILA.html`) — never committed or published.
 
+## v2 Roadmap (approved 2026-08-21 — out of scope for the Lab 4 v1)
+
+1. **Export to Google Calendar / .ics** — one-tap export of the semester schedule as an .ics file (rooms in the location field), importable into Google/Samsung/Apple Calendar. Cheap (an .ics is plain text) and adds another clean integration to the architecture.
+2. **Absence tracker** — a "mark absent" action on each class; the app knows each subject's units and meeting hours, so it computes the allowed-absence cap and warns "2 absences left in Networking 3." Quiet, high-value anxiety relief.
+3. **Semester progress** — "Week 7 of 18" in the schedule header plus a days-until-finals countdown (also as a widget style). Tiny effort, strong emotional texture.
+
+**Considered and rejected:** grade tracker / GWA calculator (user decision — out of the app's scope).
+**Undecided (explained, awaiting decision):** custom events & exam mode (one-off entries so midterm/finals schedules and org meetings appear correctly); room finder (room-code → building/floor hint on the subject detail screen).
+
 ## Pending work
 
 - [ ] User re-exports `docs/architecture.drawio` → `docs/architecture.png` (diagram gained the holidays-feed box)
