@@ -1,0 +1,30 @@
+# Environment and secrets
+.env
+.env.*
+*.key
+config/secrets.*
+
+# Dependencies
+node_modules/
+.dart_tool/
+.packages
+.pub-cache/
+
+# Build outputs
+build/
+dist/
+*.apk
+*.aab
+*.ipa
+
+# IDE and editor files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
