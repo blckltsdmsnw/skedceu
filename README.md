@@ -226,6 +226,8 @@ The COM contains real personal information: full name, student number, program, 
 
 The editable diagram is in [`docs/architecture.drawio`](docs/architecture.drawio) (open with [diagrams.net](https://app.diagrams.net)).
 
+![SkedCEU Architecture Diagram](docs/architecture.png)
+
 ```mermaid
 flowchart TD
     S[Student] --> APP
