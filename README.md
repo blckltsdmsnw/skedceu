@@ -1,6 +1,6 @@
 # SkedCEU
 
-> Scan your COM once. Get your schedule everywhere.
+> Your semester, in your pocket.
 
 A mobile application (iOS and Android) for Centro Escolar University students that converts a photo of the Certificate of Matriculation (COM) into a live class schedule — complete with home screen widgets, lock screen reminders, and a curriculum map that shows subject prerequisites.
 
