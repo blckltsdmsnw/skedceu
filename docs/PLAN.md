@@ -136,8 +136,9 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 
 ## Pending work
 
-- [ ] User re-exports `docs/architecture.drawio` → `docs/architecture.png` (diagram gained the holidays-feed box)
-- [ ] Fold features 1–3 and 6–8 of this plan into the README (holiday sync + meeting links already committed in `cd27d0b`)
-- [ ] Regenerate `Olores_SIA2_Lab4.pdf` with updated README content + new PNG
+- [x] Diagram PNG re-exported and committed (2026-08-21)
+- [x] README synced with the full design (portal import, timetable views, tagline, PLAN.md link)
+- [x] `Olores_SIA2_Lab4.pdf` regenerated with final content and fresh screenshots (2026-08-22)
 - [ ] User uploads PDF to Canvas (due **Sat Aug 29, 2026 11:59 PM**, 3 attempts)
+- [ ] Decide on the two open v2 ideas: custom events / exam mode, room finder
 - [ ] (Future) Replace the invented "PRCO141 Network Management" unlock example with real BSIT curriculum data
