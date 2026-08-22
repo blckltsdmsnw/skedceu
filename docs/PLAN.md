@@ -67,6 +67,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - Backend periodically pulls the **Google Calendar public Philippine Holidays feed** (REST) into `academic_events`.
 - **CEU-specific dates** (class suspensions, university events) maintained as admin data in the same table — sourced from the **SkedCEU-provided academic calendar** (Feature 16).
 - **Exam-week banners:** during prelim/midterm/final periods, Today and Week show a banner (e.g., "Prelims week · exams Wed–Sat, Aug 26–29") in the purple family — same pattern as the holiday and tuition banners. Contextual banners rank by urgency (this week's exams above a tuition payment due weeks out).
+- **Banners are swipe-to-dismiss** (decided 2026-08-22): exam-week and tuition banners behave like notifications — swipe left to remove. Dismissal is **per event**: the prelims banner stays gone once dismissed but the midterms banner will still appear; the tuition banner returns for the next due date. Dismissed info remains findable in its home (Tuition tab, Academic calendar screen). Holiday "no classes" rows inside the timetable are schedule content, not notifications — not dismissible.
 - Holidays render as a **"no classes" banner** replacing that day's class rows/blocks (e.g., Aug 31 — National Heroes Day).
 
 ### 5. Reminders & meeting links
