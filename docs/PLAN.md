@@ -60,7 +60,9 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - **Today:** next-class hero card (subject, time, room, countdown badge) + single-day hour timeline (grid) or row list — **Grid | List toggle**.
 - **Week:** visual timetable grid — days Mon–Sat across, hours 7a–7p down, color-coded blocks per subject, legend below; **Grid | List toggle** (list = grouped day sections).
 - Home screen + lock screen **widgets**; schedule cached on-device so everything works offline.
-- **Semester progress** (moved from v2 roadmap, 2026-08-22): shown **inline in the Today header's date line** ("MONDAY, AUGUST 24 · WEEK 6 OF 18" — muted eyebrow style, not a pill/badge; design decision 2026-08-22), plus a days-until-finals countdown (also as a widget style).
+- **Semester progress** (moved from v2 roadmap, 2026-08-22): a small pink "WEEK 6 OF 18" line **directly under the date** in the Today/Week headers (stacked, not a pill — refined 2026-08-23), plus a days-until-finals countdown (also as a widget style).
+- **"Now" line** (added 2026-08-23): a thin pink line with a dot across the Today timetable at the current time, so the day's position is visible at a glance.
+- **No-class-day state** (added 2026-08-23): on Sundays/holidays the Today view swaps the grid for a friendly card — "No classes today" plus the next upcoming class (holiday-aware: it skips a holiday Monday) and a heads-up banner when tomorrow is a holiday.
 - **Semester archive:** each new sem is a new import; old schedules kept.
 
 ### 4. Holiday & CEU calendar sync
@@ -103,10 +105,12 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - One-time payment unlocks **cosmetics only**: more widget styles, custom backgrounds/themes.
 - Surfaced only as a quiet row in Settings. Purchases via platform stores; confirmation via **webhook**; no card data touches the backend.
 
-### 11. Accounts & login (added 2026-08-22)
-- Sign-up with **email verification** (register → verification email → confirm).
+### 11. Accounts & profile (added 2026-08-22; expanded 2026-08-23)
+- Sign-up with **email verification** (register → verification email → confirm). **The sign-in email is immutable** — it's the account identifier, shown with a Verified badge, never editable (decided 2026-08-23).
 - **Biometric unlock** (fingerprint / Face) after first login — Flutter `local_auth`.
-- Open sub-questions: restrict registration to `@*.ceu.edu.ph` addresses? Is an account required up-front, or optional until account-backed features (QR share, Plus) are used?
+- **Profile fields sync from the COM**: full name, program, year, and section come from the imported COM and **update automatically on every import** — shown as locked fields, not free-text. The user edits only their **photo** (upload/change from the Profile screen) and password.
+- Profile card in Settings shows name, program/year/sem, and email; tapping it opens the **Profile screen** (photo upload, COM-synced fields, email + Verified, change password, biometric toggle).
+- Open sub-question: restrict registration to `@*.ceu.edu.ph` addresses? (Likely yes — keeps the app CEU-only.)
 
 ### 12. My COM viewer (added 2026-08-22 — decision: Option B)
 - **Settings → My COM** shows the **original uploaded file exactly as issued** (the saved CARES page/PDF or the scanned photo) in a pinch-to-zoom document viewer — not a re-rendered app version, so it can never differ from the real thing.
@@ -128,10 +132,19 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 
 ### 16. Academic calendar (added 2026-08-22; revised same day — **provided by SkedCEU, no user upload**)
 - The **admin (developer) maintains the official CEU academic calendar server-side, once per school year**, in the existing `AcademicEvent` table. Every student receives it automatically — **there is no user upload** (decision 2026-08-22: personal upload was considered and dropped; the calendar is identical for every student, so it's admin data like the curriculum).
-- **Settings → Academic calendar** is a **read-only screen**: "Provided by SkedCEU · Up to date" plus the key-dates list (classes begin, enrollment cutoff, prelims, midterms, finals, sem end).
+- **Settings → Academic calendar** is a **read-only screen**: "Provided by SkedCEU · Up to date" plus the key-dates list (classes begin, enrollment cutoff, prelims, holidays, midterms, finals, sem end), filterable via **chips — All · Exams · Enrollment · Holidays** (chips over a dropdown: all four options visible, one-tap filtering; decided 2026-08-23).
 - The calendar **reflects directly in the schedule views**: week-of-semester in the Today date line + finals countdown (Feature 3), the enrollment deadline in the not-enrolled empty state (Feature 14), holiday/suspension banners and **exam-week banners** (Feature 4), and exam mode's date windows (v2).
 - No PII — a public university document; syncs freely.
 - **Real CEU Manila SY 2026–2027 dates** (from the official school calendar, collegiate/graduate): 1st Sem = **18 weeks** (Jul 22 classes start · Aug 5 late-enrollment cutoff · Prelims Aug 26–29 · Midterms Oct 7–10 · Finals Nov 18–21 · ends Nov 21); 2nd Sem starts Jan 4, 2027. Note CEU has **three exam periods** (prelim/midterm/final) — exam mode should support all three windows.
+
+### 17. Settings subscreens (specs, added 2026-08-23)
+- **Notifications & reminders:** master toggle · class-reminder lead time (5/10/15/30 min) · tuition-reminder lead (days before) · exam-week alerts · "no classes tomorrow" holiday heads-up · quiet hours · **auto-silence during class** (the app knows the schedule, so non-urgent notifications mute while a class is in session).
+- **Appearance:** theme (CEU Pink; more with Plus) · light/dark/system · subject-color editor (the six timetable colors) · week starts Mon/Sun · 12/24-hour time.
+- **SkedCEU Plus:** one screen, one price, cosmetics only — extra widget styles, themes, custom backgrounds; "everything else is free forever"; restore purchase.
+- **Privacy:** the promises in plain words — COM never leaves your phone (encrypted) · tuition amounts on-device only · QR share expiry + revoke list · delete-everything button.
+- **Widgets** (designed, artboard 16): Next Class (small), Today Timeline (medium), lock-screen line; previews rendered in-app; more styles via Plus. Widgets refresh with the schedule, holidays and exam weeks included.
+- **Profile** (designed, artboard 15): see Feature 11.
+- The four text-spec screens (Notifications/Appearance/Plus/Privacy) are specced here; artboards can follow in a later pass if needed.
 
 ---
 
@@ -181,6 +194,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - [ ] Decide Feature 11 sub-questions: CEU-email-only registration? account required vs optional?
 - [x] Design pass for the 2026-08-22 features (canvas artboards): onboarding carousel, enrollment-aware empty state, Settings → My COM (original-document viewer), full-curriculum view (+ official-PDF row), import-guide link on the Import screen, Week-of-semester chip on Today
 - [ ] Source the real registrar curriculum PDF for the official-curriculum row (per program)
+- [x] 2026-08-23 design pass: week line under the date (Today/Week), now-line in the grid, Settings rebuild (My COM + Academic calendar rows, email in profile card), academic-calendar filter chips + holiday row, Profile screen (photo upload, immutable email), Widgets screen, no-class-day state, Subject Details polish (Join button, section)
 - [x] Academic calendar designed (Feature 16 + canvas artboard 14, 2026-08-22; revised same day to SkedCEU-provided — no user upload; Settings row added; exam-week banner + eyebrow week placement on Today)
 - [x] Replace the sample academic-calendar dates in the mockups with the real CEU SY 2026–2027 dates (done 2026-08-22 — also fixed the empty-state enrollment deadline to Aug 5 and the Today chip to Week 6)
 - [ ] (Future) Replace the invented "PRCO141 Network Management" unlock example with real BSIT curriculum data
