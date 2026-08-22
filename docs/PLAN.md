@@ -98,6 +98,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - **Tapping any class row/block** (Today, Week, Curriculum) opens the **Subject Detail screen**:
   - *From your COM* (editable): meeting times and room — with an edit pencil, since parsing can need correction mid-sem.
   - *Details you add*: professor name, online-meeting link (powers the Join button and reminder deep-link), personal notes, subject color, per-subject reminder toggle/offset.
+  - **Join button placement** (decided 2026-08-23): Join appears on **schedule rows/blocks and reminder notifications** — never inside the Subject Detail editor, where the link is a field being edited, not an action.
 - Future idea (not committed): per-section crowd-sourcing of professor names/links between students who share a section.
 
 ### 10. Monetization — SkedCEU Plus
