@@ -144,7 +144,8 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - **SkedCEU Plus:** one screen, one price, cosmetics only — extra widget styles, themes, custom backgrounds; "everything else is free forever"; restore purchase.
 - **Privacy:** the promises in plain words — COM never leaves your phone (encrypted) · tuition amounts on-device only · QR share expiry + revoke list · delete-everything button.
 - **Widgets** (designed, artboard 16): Next Class (small), Today Timeline (medium), lock-screen line; previews rendered in-app; more styles via Plus. Widgets refresh with the schedule, holidays and exam weeks included.
-- **Profile** (designed, artboard 15): see Feature 11.
+- **Profile** (designed, artboard 15): see Feature 11. Photo change is the camera badge on the avatar (no separate button — decided 2026-08-23).
+- **Settings screen scrolls** (noted 2026-08-23): in the real app the Settings tab is a scrollable list — content may extend past the fold on small screens, and **Sign out is always the last row**. The mockup shows everything within one frame, but the implementation must not squeeze rows to fit.
 - The four text-spec screens (Notifications/Appearance/Plus/Privacy) are specced here; artboards can follow in a later pass if needed.
 
 ---
