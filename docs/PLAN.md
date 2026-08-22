@@ -60,12 +60,13 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - **Today:** next-class hero card (subject, time, room, countdown badge) + single-day hour timeline (grid) or row list — **Grid | List toggle**.
 - **Week:** visual timetable grid — days Mon–Sat across, hours 7a–7p down, color-coded blocks per subject, legend below; **Grid | List toggle** (list = grouped day sections).
 - Home screen + lock screen **widgets**; schedule cached on-device so everything works offline.
-- **Semester progress** (moved from v2 roadmap, 2026-08-22): a "Week 5 of 18" chip in the Today header, plus a days-until-finals countdown (also as a widget style).
+- **Semester progress** (moved from v2 roadmap, 2026-08-22): shown **inline in the Today header's date line** ("MONDAY, AUGUST 24 · WEEK 6 OF 18" — muted eyebrow style, not a pill/badge; design decision 2026-08-22), plus a days-until-finals countdown (also as a widget style).
 - **Semester archive:** each new sem is a new import; old schedules kept.
 
 ### 4. Holiday & CEU calendar sync
 - Backend periodically pulls the **Google Calendar public Philippine Holidays feed** (REST) into `academic_events`.
-- **CEU-specific dates** (class suspensions, university events) maintained as admin data in the same table — primary source: the student-uploaded **academic calendar** (Feature 16).
+- **CEU-specific dates** (class suspensions, university events) maintained as admin data in the same table — sourced from the **SkedCEU-provided academic calendar** (Feature 16).
+- **Exam-week banners:** during prelim/midterm/final periods, Today and Week show a banner (e.g., "Prelims week · exams Wed–Sat, Aug 26–29") in the purple family — same pattern as the holiday and tuition banners. Contextual banners rank by urgency (this week's exams above a tuition payment due weeks out).
 - Holidays render as a **"no classes" banner** replacing that day's class rows/blocks (e.g., Aug 31 — National Heroes Day).
 
 ### 5. Reminders & meeting links
@@ -118,18 +119,17 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 ### 14. First-run experience: onboarding + enrollment-aware empty state (added 2026-08-22)
 - **Onboarding carousel** on first launch: 3–4 swipeable slides (import once → whole schedule; widgets & reminders; curriculum tracking) ending on the Import COM screen.
 - **The app works without an import — "browsing mode":** full course curriculum (Feature 13), FAQs, and onboarding content are available; Schedule and Tuition tabs show the enrollment-aware empty state instead of dead screens.
-- **Enrollment-aware empty state:** with no semester imported, the app asks *"Enrolled already?"* → Import your COM; otherwise shows enrollment-period info (e.g., *"Enrollment is open until …"*) sourced from the academic-calendar upload (Feature 16) via `AcademicEvent`.
+- **Enrollment-aware empty state:** with no semester imported, the app asks *"Enrolled already?"* → Import your COM; otherwise shows enrollment-period info (e.g., *"Enrollment is open until …"*) sourced from the SkedCEU-provided academic calendar (Feature 16) via `AcademicEvent`.
 
 ### 15. Help & import guide FAQ (added 2026-08-22)
 - **Settings → Help / FAQs**, headlined by an **illustrated step-by-step guide with screenshots**: log into CARES → save/share the COM page → upload it in SkedCEU.
 - Linked directly from the Import COM screen ("Not sure how? See the guide →").
 
-### 16. Academic calendar import (added 2026-08-22)
-- **Settings → Academic calendar** (plus an onboarding prompt): the student uploads the official CEU academic calendar (PDF or photo) **once per semester**. Parsed dates go through the same **Review & Confirm** safety net as the COM.
-- One upload powers everything date-driven: the **"Week 5 of 18"** chip and finals countdown (Feature 3), the **enrollment deadline** in the not-enrolled empty state (Feature 14), **holiday/suspension banners** (Feature 4), and **exam mode's date windows** (v2).
-- No PII — it's a public university document, so it syncs freely (no encryption needed, unlike the COM).
-- Data model: merges into the existing `AcademicEvent` table — a new source, not a new model.
-- **v2 refinement:** the server caches **one confirmed copy per school year** — the first student's confirmed upload seeds it, everyone else gets the dates automatically, and a personal upload becomes the fallback/override.
+### 16. Academic calendar (added 2026-08-22; revised same day — **provided by SkedCEU, no user upload**)
+- The **admin (developer) maintains the official CEU academic calendar server-side, once per school year**, in the existing `AcademicEvent` table. Every student receives it automatically — **there is no user upload** (decision 2026-08-22: personal upload was considered and dropped; the calendar is identical for every student, so it's admin data like the curriculum).
+- **Settings → Academic calendar** is a **read-only screen**: "Provided by SkedCEU · Up to date" plus the key-dates list (classes begin, enrollment cutoff, prelims, midterms, finals, sem end).
+- The calendar **reflects directly in the schedule views**: week-of-semester in the Today date line + finals countdown (Feature 3), the enrollment deadline in the not-enrolled empty state (Feature 14), holiday/suspension banners and **exam-week banners** (Feature 4), and exam mode's date windows (v2).
+- No PII — a public university document; syncs freely.
 - **Real CEU Manila SY 2026–2027 dates** (from the official school calendar, collegiate/graduate): 1st Sem = **18 weeks** (Jul 22 classes start · Aug 5 late-enrollment cutoff · Prelims Aug 26–29 · Midterms Oct 7–10 · Finals Nov 18–21 · ends Nov 21); 2nd Sem starts Jan 4, 2027. Note CEU has **three exam periods** (prelim/midterm/final) — exam mode should support all three windows.
 
 ---
@@ -180,6 +180,6 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - [ ] Decide Feature 11 sub-questions: CEU-email-only registration? account required vs optional?
 - [x] Design pass for the 2026-08-22 features (canvas artboards): onboarding carousel, enrollment-aware empty state, Settings → My COM (original-document viewer), full-curriculum view (+ official-PDF row), import-guide link on the Import screen, Week-of-semester chip on Today
 - [ ] Source the real registrar curriculum PDF for the official-curriculum row (per program)
-- [x] Academic calendar import designed (Feature 16 + canvas artboard 14, 2026-08-22)
+- [x] Academic calendar designed (Feature 16 + canvas artboard 14, 2026-08-22; revised same day to SkedCEU-provided — no user upload; Settings row added; exam-week banner + eyebrow week placement on Today)
 - [x] Replace the sample academic-calendar dates in the mockups with the real CEU SY 2026–2027 dates (done 2026-08-22 — also fixed the empty-state enrollment deadline to Aug 5 and the Today chip to Week 6)
 - [ ] (Future) Replace the invented "PRCO141 Network Management" unlock example with real BSIT curriculum data
