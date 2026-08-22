@@ -1,6 +1,6 @@
 # SkedCEU — Product & Design Plan
 
-Everything planned and decided for SkedCEU as of **2026-08-21**. This is the living feature plan; the README covers the SIA2 Lab 4 architecture deliverable.
+Everything planned and decided for SkedCEU as of **2026-08-22**. This is the living feature plan; the README covers the SIA2 Lab 4 architecture deliverable.
 
 > **Design canvas (interactive mockups):** https://claude.ai/code/artifact/f337db59-5eea-401d-a561-925319ebc356
 > Local design working files: `Documents\SIA PROJECT\design-workfiles\`
@@ -46,7 +46,8 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - **Scan a photo (fallback):** OCR (Google Cloud Vision) for students who only have a printout.
 - **Manual entry (last resort).**
 - Always followed by the **Review & Confirm** screen — extracted schedule is shown for correction before saving. OCR/parsing mistakes never silently corrupt a schedule.
-- COM images/files are **deleted after parsing**; only the structured schedule is kept.
+- **COM storage (decided 2026-08-22):** after parsing, the COM file/image is kept **on-device only, encrypted, never uploaded** — the server only ever sees the structured schedule. Viewable anytime via **Settings → My COM** (Feature 12). Privacy promise wording: *"Your COM never leaves your phone."*
+- The **import screen carries a "Not sure how? See the guide →" link** to the illustrated import FAQ (Feature 15) under the Import-from-CARES card.
 
 ### 2. Parsing rules (learned from a real COM)
 - Subjects come as **lecture + lab pairs** (e.g., PRCO123 / PRCO123L) — group under one subject with two meeting blocks.
@@ -99,6 +100,28 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - One-time payment unlocks **cosmetics only**: more widget styles, custom backgrounds/themes.
 - Surfaced only as a quiet row in Settings. Purchases via platform stores; confirmation via **webhook**; no card data touches the backend.
 
+### 11. Accounts & login (added 2026-08-22)
+- Sign-up with **email verification** (register → verification email → confirm).
+- **Biometric unlock** (fingerprint / Face) after first login — Flutter `local_auth`.
+- Open sub-questions: restrict registration to `@*.ceu.edu.ph` addresses? Is an account required up-front, or optional until account-backed features (QR share, Plus) are used?
+
+### 12. My COM viewer (added 2026-08-22 — decision: Option B)
+- **Settings → My COM** shows the full uploaded COM (per semester).
+- Stored **on-device only, encrypted at rest, never uploaded** — see Feature 1. Deleting a semester deletes its COM file.
+
+### 13. Full course curriculum view (added 2026-08-22)
+- Curriculum tab gains **"View full curriculum"**: the entire program (all years/semesters), color-coded with the student's own status — passed ✓ / enrolled (pink) / future (dashed).
+- Same admin-maintained curriculum data as Feature 6, wider lens. Also the anchor content for browsing mode (Feature 14).
+
+### 14. First-run experience: onboarding + enrollment-aware empty state (added 2026-08-22)
+- **Onboarding carousel** on first launch: 3–4 swipeable slides (import once → whole schedule; widgets & reminders; curriculum tracking) ending on the Import COM screen.
+- **The app works without an import — "browsing mode":** full course curriculum (Feature 13), FAQs, and onboarding content are available; Schedule and Tuition tabs show the enrollment-aware empty state instead of dead screens.
+- **Enrollment-aware empty state:** with no semester imported, the app asks *"Enrolled already?"* → Import your COM; otherwise shows enrollment-period info (e.g., *"Enrollment is open until …"*) sourced from the CEU academic-calendar data (`AcademicEvent` — same admin-maintained table as Feature 4; needs per-term upkeep).
+
+### 15. Help & import guide FAQ (added 2026-08-22)
+- **Settings → Help / FAQs**, headlined by an **illustrated step-by-step guide with screenshots**: log into CARES → save/share the COM page → upload it in SkedCEU.
+- Linked directly from the Import COM screen ("Not sure how? See the guide →").
+
 ---
 
 ## Data model additions (beyond the Lab 4 README)
@@ -120,7 +143,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 
 ## Privacy rules (non-negotiable)
 
-- COM contains PII (name, student number, address, balances) — **deleted after parsing**; only structured schedule kept.
+- COM contains PII (name, student number, address, balances) — **stored on-device only, encrypted, never uploaded** (updated 2026-08-22; was "deleted after parsing"). The server only ever receives the structured schedule. Promise wording: *"Your COM never leaves your phone."*
 - Tuition amounts: **on-device only**.
 - QR share: **class times only**, expiring, revocable.
 - The real COM file used for design reference stays local (`Downloads\CEUMANILA.html`) — never committed or published.
@@ -130,9 +153,11 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 1. **Export to Google Calendar / .ics** — one-tap export of the semester schedule as an .ics file (rooms in the location field), importable into Google/Samsung/Apple Calendar. Cheap (an .ics is plain text) and adds another clean integration to the architecture.
 2. **Absence tracker** — a "mark absent" action on each class; the app knows each subject's units and meeting hours, so it computes the allowed-absence cap and warns "2 absences left in Networking 3." Quiet, high-value anxiety relief.
 3. **Semester progress** — "Week 7 of 18" in the schedule header plus a days-until-finals countdown (also as a widget style). Tiny effort, strong emotional texture.
+4. **Custom events** (approved 2026-08-22) — manually add one-off or recurring entries (org meetings, consultations, appointments) that appear in Today/Week views, grid, reminders, and widgets alongside classes.
+5. **Exam mode** (approved 2026-08-22) — enter a midterms/finals exam schedule for a date range; during that window the exam timetable replaces/overlays the regular classes, then the normal schedule returns automatically.
 
 **Considered and rejected:** grade tracker / GWA calculator (user decision — out of the app's scope).
-**Undecided (explained, awaiting decision):** custom events & exam mode (one-off entries so midterm/finals schedules and org meetings appear correctly); room finder (room-code → building/floor hint on the subject detail screen).
+**Undecided (explained, awaiting decision):** room finder (room-code → building/floor hint on the subject detail screen; data-maintenance burden is the concern — lightweight alternative: free-text location note per subject).
 
 ## Pending work
 
@@ -140,5 +165,8 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - [x] README synced with the full design (portal import, timetable views, tagline, PLAN.md link)
 - [x] `Olores_SIA2_Lab4.pdf` regenerated with final content and fresh screenshots (2026-08-22)
 - [ ] User uploads PDF to Canvas (due **Sat Aug 29, 2026 11:59 PM**, 3 attempts)
-- [ ] Decide on the two open v2 ideas: custom events / exam mode, room finder
+- [x] Decide on custom events / exam mode → **approved into v2** (2026-08-22)
+- [ ] Decide on room finder (still open)
+- [ ] Decide Feature 11 sub-questions: CEU-email-only registration? account required vs optional?
+- [ ] Design pass for the 2026-08-22 features (canvas artboards): onboarding carousel, enrollment-aware empty state, Settings → My COM, full-curriculum view, import-guide link on the Import screen
 - [ ] (Future) Replace the invented "PRCO141 Network Management" unlock example with real BSIT curriculum data
