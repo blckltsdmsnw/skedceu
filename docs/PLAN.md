@@ -60,6 +60,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - **Today:** next-class hero card (subject, time, room, countdown badge) + single-day hour timeline (grid) or row list — **Grid | List toggle**.
 - **Week:** visual timetable grid — days Mon–Sat across, hours 7a–7p down, color-coded blocks per subject, legend below; **Grid | List toggle** (list = grouped day sections).
 - Home screen + lock screen **widgets**; schedule cached on-device so everything works offline.
+- **Semester progress** (moved from v2 roadmap, 2026-08-22): a "Week 5 of 18" chip in the Today header, plus a days-until-finals countdown (also as a widget style).
 - **Semester archive:** each new sem is a new import; old schedules kept.
 
 ### 4. Holiday & CEU calendar sync
@@ -106,11 +107,12 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - Open sub-questions: restrict registration to `@*.ceu.edu.ph` addresses? Is an account required up-front, or optional until account-backed features (QR share, Plus) are used?
 
 ### 12. My COM viewer (added 2026-08-22 — decision: Option B)
-- **Settings → My COM** shows the full uploaded COM (per semester).
+- **Settings → My COM** shows the **original uploaded file exactly as issued** (the saved CARES page/PDF or the scanned photo) in a pinch-to-zoom document viewer — not a re-rendered app version, so it can never differ from the real thing.
 - Stored **on-device only, encrypted at rest, never uploaded** — see Feature 1. Deleting a semester deletes its COM file.
 
 ### 13. Full course curriculum view (added 2026-08-22)
-- Curriculum tab gains **"View full curriculum"**: the entire program (all years/semesters), color-coded with the student's own status — passed ✓ / enrolled (pink) / future (dashed).
+- Curriculum tab gains **"View full curriculum"**: the entire program (all years/semesters), color-coded with the student's own status — passed ✓ / enrolled (pink) / future (dashed) — plus a units-progress chip (e.g., "112 / 148 units done").
+- Also a **"View official curriculum (PDF)" row**: opens the registrar-issued curriculum document untouched, for when the student needs the university's own wording. Admin-maintained per program, stored alongside the curriculum data rows so the two can't drift apart.
 - Same admin-maintained curriculum data as Feature 6, wider lens. Also the anchor content for browsing mode (Feature 14).
 
 ### 14. First-run experience: onboarding + enrollment-aware empty state (added 2026-08-22)
@@ -152,7 +154,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 
 1. **Export to Google Calendar / .ics** — one-tap export of the semester schedule as an .ics file (rooms in the location field), importable into Google/Samsung/Apple Calendar. Cheap (an .ics is plain text) and adds another clean integration to the architecture.
 2. **Absence tracker** — a "mark absent" action on each class; the app knows each subject's units and meeting hours, so it computes the allowed-absence cap and warns "2 absences left in Networking 3." Quiet, high-value anxiety relief.
-3. **Semester progress** — "Week 7 of 18" in the schedule header plus a days-until-finals countdown (also as a widget style). Tiny effort, strong emotional texture.
+3. ~~**Semester progress**~~ — **promoted into the current feature set 2026-08-22** (see Feature 3): "Week 5 of 18" chip in the schedule header plus a days-until-finals countdown.
 4. **Custom events** (approved 2026-08-22) — manually add one-off or recurring entries (org meetings, consultations, appointments) that appear in Today/Week views, grid, reminders, and widgets alongside classes.
 5. **Exam mode** (approved 2026-08-22) — enter a midterms/finals exam schedule for a date range; during that window the exam timetable replaces/overlays the regular classes, then the normal schedule returns automatically.
 
@@ -168,5 +170,6 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - [x] Decide on custom events / exam mode → **approved into v2** (2026-08-22)
 - [ ] Decide on room finder (still open)
 - [ ] Decide Feature 11 sub-questions: CEU-email-only registration? account required vs optional?
-- [ ] Design pass for the 2026-08-22 features (canvas artboards): onboarding carousel, enrollment-aware empty state, Settings → My COM, full-curriculum view, import-guide link on the Import screen
+- [x] Design pass for the 2026-08-22 features (canvas artboards): onboarding carousel, enrollment-aware empty state, Settings → My COM (original-document viewer), full-curriculum view (+ official-PDF row), import-guide link on the Import screen, Week-of-semester chip on Today
+- [ ] Source the real registrar curriculum PDF for the official-curriculum row (per program)
 - [ ] (Future) Replace the invented "PRCO141 Network Management" unlock example with real BSIT curriculum data
