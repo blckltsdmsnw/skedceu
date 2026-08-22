@@ -65,7 +65,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 
 ### 4. Holiday & CEU calendar sync
 - Backend periodically pulls the **Google Calendar public Philippine Holidays feed** (REST) into `academic_events`.
-- **CEU-specific dates** (class suspensions, university events) maintained as admin data in the same table.
+- **CEU-specific dates** (class suspensions, university events) maintained as admin data in the same table — primary source: the student-uploaded **academic calendar** (Feature 16).
 - Holidays render as a **"no classes" banner** replacing that day's class rows/blocks (e.g., Aug 31 — National Heroes Day).
 
 ### 5. Reminders & meeting links
@@ -118,11 +118,18 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 ### 14. First-run experience: onboarding + enrollment-aware empty state (added 2026-08-22)
 - **Onboarding carousel** on first launch: 3–4 swipeable slides (import once → whole schedule; widgets & reminders; curriculum tracking) ending on the Import COM screen.
 - **The app works without an import — "browsing mode":** full course curriculum (Feature 13), FAQs, and onboarding content are available; Schedule and Tuition tabs show the enrollment-aware empty state instead of dead screens.
-- **Enrollment-aware empty state:** with no semester imported, the app asks *"Enrolled already?"* → Import your COM; otherwise shows enrollment-period info (e.g., *"Enrollment is open until …"*) sourced from the CEU academic-calendar data (`AcademicEvent` — same admin-maintained table as Feature 4; needs per-term upkeep).
+- **Enrollment-aware empty state:** with no semester imported, the app asks *"Enrolled already?"* → Import your COM; otherwise shows enrollment-period info (e.g., *"Enrollment is open until …"*) sourced from the academic-calendar upload (Feature 16) via `AcademicEvent`.
 
 ### 15. Help & import guide FAQ (added 2026-08-22)
 - **Settings → Help / FAQs**, headlined by an **illustrated step-by-step guide with screenshots**: log into CARES → save/share the COM page → upload it in SkedCEU.
 - Linked directly from the Import COM screen ("Not sure how? See the guide →").
+
+### 16. Academic calendar import (added 2026-08-22)
+- **Settings → Academic calendar** (plus an onboarding prompt): the student uploads the official CEU academic calendar (PDF or photo) **once per semester**. Parsed dates go through the same **Review & Confirm** safety net as the COM.
+- One upload powers everything date-driven: the **"Week 5 of 18"** chip and finals countdown (Feature 3), the **enrollment deadline** in the not-enrolled empty state (Feature 14), **holiday/suspension banners** (Feature 4), and **exam mode's date windows** (v2).
+- No PII — it's a public university document, so it syncs freely (no encryption needed, unlike the COM).
+- Data model: merges into the existing `AcademicEvent` table — a new source, not a new model.
+- **v2 refinement:** the server caches **one confirmed copy per school year** — the first student's confirmed upload seeds it, everyone else gets the dates automatically, and a personal upload becomes the fallback/override.
 
 ---
 
@@ -172,4 +179,6 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - [ ] Decide Feature 11 sub-questions: CEU-email-only registration? account required vs optional?
 - [x] Design pass for the 2026-08-22 features (canvas artboards): onboarding carousel, enrollment-aware empty state, Settings → My COM (original-document viewer), full-curriculum view (+ official-PDF row), import-guide link on the Import screen, Week-of-semester chip on Today
 - [ ] Source the real registrar curriculum PDF for the official-curriculum row (per program)
+- [x] Academic calendar import designed (Feature 16 + canvas artboard 14, 2026-08-22)
+- [ ] Replace the sample academic-calendar dates in the mockup with the real CEU SY 2026–2027 dates
 - [ ] (Future) Replace the invented "PRCO141 Network Management" unlock example with real BSIT curriculum data
