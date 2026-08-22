@@ -130,6 +130,7 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - No PII — it's a public university document, so it syncs freely (no encryption needed, unlike the COM).
 - Data model: merges into the existing `AcademicEvent` table — a new source, not a new model.
 - **v2 refinement:** the server caches **one confirmed copy per school year** — the first student's confirmed upload seeds it, everyone else gets the dates automatically, and a personal upload becomes the fallback/override.
+- **Real CEU Manila SY 2026–2027 dates** (from the official school calendar, collegiate/graduate): 1st Sem = **18 weeks** (Jul 22 classes start · Aug 5 late-enrollment cutoff · Prelims Aug 26–29 · Midterms Oct 7–10 · Finals Nov 18–21 · ends Nov 21); 2nd Sem starts Jan 4, 2027. Note CEU has **three exam periods** (prelim/midterm/final) — exam mode should support all three windows.
 
 ---
 
@@ -180,5 +181,5 @@ Scan or import your Certificate of Matriculation once, and your whole semester l
 - [x] Design pass for the 2026-08-22 features (canvas artboards): onboarding carousel, enrollment-aware empty state, Settings → My COM (original-document viewer), full-curriculum view (+ official-PDF row), import-guide link on the Import screen, Week-of-semester chip on Today
 - [ ] Source the real registrar curriculum PDF for the official-curriculum row (per program)
 - [x] Academic calendar import designed (Feature 16 + canvas artboard 14, 2026-08-22)
-- [ ] Replace the sample academic-calendar dates in the mockup with the real CEU SY 2026–2027 dates
+- [x] Replace the sample academic-calendar dates in the mockups with the real CEU SY 2026–2027 dates (done 2026-08-22 — also fixed the empty-state enrollment deadline to Aug 5 and the Today chip to Week 6)
 - [ ] (Future) Replace the invented "PRCO141 Network Management" unlock example with real BSIT curriculum data
